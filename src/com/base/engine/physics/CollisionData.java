@@ -2,6 +2,11 @@ package com.base.engine.physics;
 
 import java.util.ArrayList;
 
+/**
+ * Stores data of all collisions for the current frame
+ * 
+ * @author JordanG
+ */
 public class CollisionData
 {
     public int contactArrayIndex;

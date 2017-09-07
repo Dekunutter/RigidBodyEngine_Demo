@@ -10,6 +10,11 @@ import org.lwjgl.opengl.GL11;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 
+/**
+ * Primitive data of a collision object
+ * 
+ * @author JordanG
+ */
 public class CollisionPrimitive
 {	
     public Body body;
@@ -24,6 +29,9 @@ public class CollisionPrimitive
         transform = body.getTransform();
     }
 
+    /**
+     * Render the object in 3D
+     */
     public void render()
     {  
         glPushMatrix();
@@ -43,6 +51,11 @@ public class CollisionPrimitive
         glPopMatrix();
     }
 
+    /**
+     * Update the logic of the object for this frame
+     * 
+     * @param duration 
+     */
     public void update(float duration)
     {
         body.integrate(duration);

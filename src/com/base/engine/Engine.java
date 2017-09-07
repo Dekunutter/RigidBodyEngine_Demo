@@ -14,6 +14,11 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+/**
+ * Handles the initialisation, looping and destruction of the engine's main components
+ * 
+ * @author JordanG
+ */
 public class Engine
 {    
     public static Engine engine;
@@ -35,23 +40,27 @@ public class Engine
         //CALL ONCE UPON LAUNCH
         checkSettings();
         
-        initDisplay();                                                          //initialize the display
-        initGL();                                                               //initialize OpenGL
+        initDisplay();                                                          
+        initGL();                                                               
         initAL();
         initTextureLoader();
         initKeyboard();
         
-        initIntro();                                                             //initialize the game itself
+        initIntro();                                                             
         initMainMenu();
         initGame();
         
         //LOOP EVERY FRAME
-        gameLoop2();                                                             //activate the game loop, executing logic every frame
+        gameLoop2();                                                            
         
         //CALL ONCE UPON TERMINATION
-        cleanUp();                                                              //clean up after the program has been close
+        cleanUp();                                                              
     }
     
+    /**
+     * Check for the existance of the settings file in the project folder
+     * Was used to extract the dimensions of the display window but currently unused
+     */
     private static void checkSettings()
     {
         URL url = Main.class.getClassLoader().getResource("settings/settings.txt");
@@ -71,13 +80,16 @@ public class Engine
         }
     }
 
-    private static void initDisplay()                                           //initialize the display window
+    /**
+     * Initialise the LWJGL display window
+     */
+    private static void initDisplay()                                           
     {
         try
         {
-            Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));                  //set up the display window to 800x600
-            Display.create();                                                   //create the window
-            //Display.setVSyncEnabled(true);                                      //synchronize the frame rate to the monitor's refresh rate
+            Display.setDisplayMode(new DisplayMode(displayWidth, displayHeight));                  
+            Display.create();                                                   
+            //Display.setVSyncEnabled(true);                                    //disabled V-sync                            
         }
         catch (LWJGLException ex)
         {
@@ -85,97 +97,124 @@ public class Engine
         }
     }
     
+    /**
+     * Initialise the OpenGL render class that will be used while the engine is running
+     */
     private static void initGL()
     {
         render = new Render();
     }
     
+    /**
+     * Initialise the OpenAL sound manager that will be used while the engine is running
+     * Setup with 8 sound channels
+     */
     private static void initAL()
     {
         SoundManager.soundManager = new SoundManager();
         SoundManager.soundManager.initialize(8);
     }
     
+    /**
+     * Initialise the texture loader class that will be used to load all texture images while the engine is running
+     */
     private static void initTextureLoader()
     {
         TextureLoader.textureLoader = new TextureLoader();
     }
     
+    /**
+     * Initialise the keyboard class that will be used to handle all keyboard input while the engine is running
+     */
     private static void initKeyboard()
     {   
         input = new Input();
     }
     
+    /**
+     * Initialise the intro splash screen state of the engine
+     */
     private static void initIntro()
     {
         Intro.intro = new Intro();
     }
     
+    /**
+     * Initialise the main menu screen state of the engine
+     */
     private static void initMainMenu()
     {
         MainMenu.mainMenu = new MainMenu();
     }
     
-    public static void initGame()                                              //initialize the Game object which will be used in the game loop
+    /**
+     * Initialise the game state of the engine (the main state)
+     */
+    public static void initGame()                                              
     {
-        Game.game = new Game();                                                 //create new Game object
+        Game.game = new Game();                                                 
     }
     
-    private static void gameLoop()                                              //game logic to execute every loop
+    /**
+     * Fixed timestep game loop with coupled physics
+     */
+    private static void gameLoop()                                             
     {
-        Time.init();                                                            //initialize the timer object
+        Time.init();                                                            
         
-        int frames = 0;                                                         //variable to count the number of frames that have passed
-        long lastTime = System.nanoTime();                                      //hold the time of the last frame, initialized to the starting value in nanoseconds
-        long totalTime = 0;                                                     //store the total time passed so far
+        int frames = 0;                                                         
+        long lastTime = System.nanoTime();                                    
+        long totalTime = 0;                                                     
         
         Update.update = new Update();
         
-        while(!Display.isCloseRequested() && !quit)                                      //while the program has not been commanded to close in any way
+        while(!Display.isCloseRequested() && !quit)                                     
         {   
-            long now = System.nanoTime();                                       //set the time to the current system time in nanoseconds
-            long passed = now - lastTime;                                       //store the time that has passed since the last frame by subtracting the current frame's time from the last frame's time
-            lastTime = now;                                                     //set the last frame's time to the current frame's time in preparation for the calculations of time between this frame and the next one to come
-            totalTime += passed;                                                //add the time that has passed to the total time
+            long now = System.nanoTime();                                       
+            long passed = now - lastTime;                                       
+            lastTime = now;                                                     
+            totalTime += passed;                                               
             
-            if(totalTime >= 1000000000)                                         //if the total time passed is equal to or greater than 1 billion nanseconds
+            if(totalTime >= 1000000000)                                        
             {
                 framesPassed = frames;
-                System.out.println("FPS: " + frames + " " + Time.getDelta());                                     //print out the framerate
-                totalTime = 0;                                                  //reset the total time counter
-                frames = 0;                                                     //reset the frame counter
+                System.out.println("FPS: " + frames + " " + Time.getDelta());                               
+                totalTime = 0;                                                  
+                frames = 0;                                                  
             }
-            Time.update();                                                      //update the timer object
+            Time.update();                                                      
             
-            input.getInput();                                                         //check for input every frame
-            Update.update.update();                                                           //update the logic every frame
-            render.render();                                                           //draw to the display every frame
+            input.getInput();                                                         
+            Update.update.update();                                                         
+            render.render();                                                          
         
-            frames++;                                                           //increment the frame counter by one at the end of every game loop
+            frames++;                                                           
         }
     }
     
-    private static void gameLoop2()                                              //game logic to execute every loop
+    /**
+     * Runs the semi-fixed timestep game loop with decoupled physics while the engine is active
+     */
+    private static void gameLoop2()                                             
     {
-        Time.init();                                                            //initialize the timer object
+        Time.init();                                                            
         
-        int frames = 0;                                                         //variable to count the number of frames that have passed
-        long lastTime = System.nanoTime();                                      //hold the time of the last frame, initialized to the starting value in nanoseconds
-        long totalTime = 0;                                                     //store the total time passed so far
+        int frames = 0;                                                         
+        long lastTime = System.nanoTime();                                     
+        long totalTime = 0;                                                    
         long updateTime = 0;
         
         Update.update = new Update();
         
-        while(!Display.isCloseRequested() && !quit)                                      //while the program has not been commanded to close in any way
+        while(!Display.isCloseRequested() && !quit)                                  
         {   
-            long now = System.nanoTime();                                       //set the time to the current system time in nanoseconds
-            long passed = now - lastTime;                                       //store the time that has passed since the last frame by subtracting the current frame's time from the last frame's time
-            lastTime = now;                                                     //set the last frame's time to the current frame's time in preparation for the calculations of time between this frame and the next one to come
-            totalTime += passed;                                                //add the time that has passed to the total time
+            long now = System.nanoTime();                                     
+            long passed = now - lastTime;                                       
+            lastTime = now;                                                   
+            totalTime += passed;                                               
             updateTime += passed;
             
             //16666666.6667f run physics once every 16 milliseconds, basically a 60FPS physics system
-            //20000000, run physics once every 20 milliseconds, basically a 50FPS physics system
             while(updateTime >= 16666666.6667f)
             {
                 framesPassed = frames;
@@ -183,35 +222,46 @@ public class Engine
                 updateTime -= 16666666.6667f;
             }
             
-            input.getInput();                                                                 //update the logic every frame
+            input.getInput();                                                                 
             
             //render.interpolate(totalTime/Time.getDelta());
-            render.render();                                                           //draw to the display every frame
+            render.render();                                                         
         
-            if(totalTime >= 1000000000)                                         //if the total time passed is equal to or greater than 1 billion nanseconds
+            if(totalTime >= 1000000000)                                       
             {
                 framesPassed = frames;
-                System.out.println("FPS: " + frames + " " + Time.getDelta());                                     //print out the framerate
-                totalTime = 0;                                                  //reset the total time counter
-                frames = 0;                                                     //reset the frame counter
+                System.out.println("FPS: " + frames + " " + Time.getDelta());                                 
+                totalTime = 0;                                                 
+                frames = 0;                                                
             }
-            frames++;                                                           //increment the frame counter by one at the end of every game loop
+            frames++;                                                          
         }
     }
     
+    /**
+     * Moves onto the next engine state in the state "queue"
+     */
     public static void nextState()
     {
         state = state.getNext();
     }
     
-    public static void setState(State s)
+    /**
+     * Sets the engine state to the specified state
+     * 
+     * @param state the specified state to set the engine state to
+     */
+    public static void setState(State state)
     {
-        state = s;
+        state = state;
     }
     
-    private static void cleanUp()                                               //handle the freeing of resources when the program has been closed
+    /**
+     * Cleanup the engine on deconstruction by destroying the display and keyboard input classes
+     */
+    private static void cleanUp()                                               
     {
-        Display.destroy();                                                      //destroy the display window
-        Keyboard.destroy();                                                     //stop looking for input
+        Display.destroy();                                                      
+        Keyboard.destroy();                                                    
     }
 }

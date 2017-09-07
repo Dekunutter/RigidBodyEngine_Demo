@@ -5,6 +5,11 @@ import com.base.engine.states.Game;
 import com.base.engine.states.Intro;
 import com.base.engine.states.MainMenu;
 
+/**
+ * Class that handles all top-level update logic of the states in the engine
+ * 
+ * @author JordanG
+ */
 public class Update
 {
     public static Update update;
@@ -14,6 +19,9 @@ public class Update
         
     }
     
+    /**
+     * Perform update logic
+     */
     public void update()
     {
         switch(Engine.state)

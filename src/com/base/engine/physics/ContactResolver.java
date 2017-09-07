@@ -3,6 +3,11 @@ package com.base.engine.physics;
 import com.base.engine.math.Vec;
 import java.util.ArrayList;
 
+/**
+ * Resolves all outstanding collisions
+ * 
+ * @author JordanG
+ */
 public class ContactResolver
 {
     protected int velocityIterations;
@@ -18,6 +23,12 @@ public class ContactResolver
         setIterations(i, i);
     }
 
+    /**
+     * Set the number of iterations the resolver should run for
+     * 
+     * @param velocityIterations
+     * @param positionIterations 
+     */
     public final void setIterations(int velocityIterations, int positionIterations)
     {
         this.velocityIterations = velocityIterations;
@@ -27,6 +38,12 @@ public class ContactResolver
         velocityEpsilon = 0.01f;
     }
 
+    /**
+     * Resolve all existing contacts
+     * 
+     * @param contacts
+     * @param duration 
+     */
     public void resolveContacts(ArrayList<Contact> contacts, float duration)
     {
         if (contacts.isEmpty())
@@ -44,6 +61,12 @@ public class ContactResolver
         adjustVelocities(contacts, duration);
     }
 
+    /**
+     * Adjust the resulting velocities of objects involved in collisions
+     * 
+     * @param contacts
+     * @param duration 
+     */
     private void adjustVelocities(ArrayList<Contact> contacts, float duration) 
     {
         Vec[] velocityChange = new Vec[2];
@@ -123,6 +146,11 @@ public class ContactResolver
 
 
 
+    /**
+     * Adjust the resulting positions of objects involved in collisions
+     * 
+     * @param contacts 
+     */
     private void adjustPositions(ArrayList<Contact> contacts) 
     {
         int index;
@@ -192,6 +220,12 @@ public class ContactResolver
         }
     }
 
+    /**
+     * Prepare contacts for collision resolution with some basic value setup
+     * 
+     * @param contacts
+     * @param duration 
+     */
     private void prepareContacts(ArrayList<Contact> contacts, float duration)
     {
         for (int i = 0; i < contacts.size(); i++)
@@ -200,6 +234,11 @@ public class ContactResolver
         }
     }
 
+    /**
+     * Check to see if this is a valid collision with outgoing velocity and iterative checks above 0
+     * 
+     * @return 
+     */
     private boolean isValid()
     {
         return (velocityIterations > 0) && (positionIterations > 0) && (positionEpsilon >= 0.0f) && (velocityEpsilon >= 0.0f);

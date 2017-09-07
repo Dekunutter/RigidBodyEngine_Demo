@@ -4,6 +4,11 @@ import com.base.engine.math.Matrix3;
 import com.base.engine.math.Quaternion;
 import com.base.engine.math.Vec;
 
+/**
+ * Basic 3D Box object
+ * 
+ * @author JordanG
+ */
 public class Box extends CollisionBox
 {	
     public boolean isOverlapping;
@@ -18,6 +23,14 @@ public class Box extends CollisionBox
         setState(position, orientation, extents, velocity, 8.0f);
     }
 
+    /**
+     * Initialise the box with the basic physics data needed for a body
+     * @param position
+     * @param orientation
+     * @param extents
+     * @param velocity
+     * @param density 
+     */
     public void setState(Vec position, Quaternion orientation, Vec extents, Vec velocity, float density)
     {
         body.setPosition(position);

@@ -20,6 +20,11 @@ import java.util.Hashtable;
 import org.lwjgl.BufferUtils;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Class for loading texture files from resources
+ * 
+ * @author JordanG
+ */
 public class TextureLoader
 {
     public static TextureLoader textureLoader;
@@ -28,6 +33,9 @@ public class TextureLoader
     private ColorModel glAlphaColorModel, glColorModel;
     private IntBuffer textureIDBuffer = BufferUtils.createIntBuffer(1);
     
+    /**
+     * Initialise the texture loader with alpha bits to look out for and a colour model
+     */
     public TextureLoader()
     {
         int[] bits = {8, 8, 8, 8};
@@ -37,13 +45,22 @@ public class TextureLoader
         glAlphaColorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), bits, hassAlpha, alphaPermitted, ComponentColorModel.TRANSLUCENT, DataBuffer.TYPE_BYTE);
         glColorModel = new ComponentColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), new int[] {8, 8, 8, 0}, hassAlpha, alphaPermitted, ComponentColorModel.OPAQUE, DataBuffer.TYPE_BYTE);
     }
-    
+    /**
+    * Create an ID for the loaded texture in the buffer
+    */
     private int createTextureID()
     {
         glGenTextures(textureIDBuffer);
         return textureIDBuffer.get(0);
     }
     
+    /**
+     * Load the texture from file in resources
+     * 
+     * @param resourceName Name of the file
+     * @return Texture
+     * @throws IOException Issue finding texture
+     */
     public Texture getTexture(String resourceName) throws IOException
     {
         Texture texture = table.get(resourceName);
@@ -57,6 +74,17 @@ public class TextureLoader
         return texture;
     }
     
+    /**
+     * Load the texture from file in resources with a magnitude filter
+     * 
+     * @param resourceName Name of file
+     * @param target ID of target to bind the texture to
+     * @param dstPixelFormat Pixel format of file
+     * @param minFilter Minimum magnitude filter
+     * @param magFilter Maximum magnitude filter
+     * @return Texture
+     * @throws IOException Issue finding texture 
+     */
     public Texture getTexture(String resourceName, int target, int dstPixelFormat, int minFilter, int magFilter) throws IOException
     {
         int srcPixelFormat;
@@ -65,8 +93,6 @@ public class TextureLoader
         
         glBindTexture(target, textureID);
         
-        //loader for jar or something
-        //BufferedImage bufferedImage = FileLoader.loadImage(resourceName);
         BufferedImage bufferedImage = FileLoader.loadImageFromResources(resourceName);
         texture.setWidth(bufferedImage.getWidth());
         texture.setHeight(bufferedImage.getHeight());
@@ -94,6 +120,12 @@ public class TextureLoader
         return texture;
     }
     
+    /**
+     * Bit operation to check of the specified value is the power of 2
+     * 
+     * @param value Value to perform the operations on
+     * @return New value
+     */
     private int powerOfTwo(int value)
     {
         if(value != 0)
@@ -109,6 +141,12 @@ public class TextureLoader
         return value;
     }
     
+    /**
+     * Get 2 fold of specified value
+     * 
+     * @param fold Value to 2 fold
+     * @return 2 folded value
+     */
     private static int get2Fold(int fold)
     {
         int ret = 2;
@@ -119,6 +157,13 @@ public class TextureLoader
         return ret;
     }
     
+    /**
+     * Convert buffered image to byte buffer
+     * 
+     * @param bufferedImage Image to convert
+     * @param texture Texture data of image
+     * @return Byte buffer of image data
+     */
     private ByteBuffer convertImageData(BufferedImage bufferedImage, Texture texture)
     {
         ByteBuffer imageBuffer;

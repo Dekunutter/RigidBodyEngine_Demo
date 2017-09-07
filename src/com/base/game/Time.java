@@ -1,46 +1,64 @@
 package com.base.game;
 
+/**
+ * Handles time-based operations based on system time
+ * 
+ * @author JordanG
+ */
 public class Time
 {
-    public static final float DAMPING = 0.00000004f;                            //constant value used to moderate the speed of the game
+    public static final float DAMPING = 0.00000004f;                           
     
-    private static long currentTime;                                            //variable used to store the time of the current frame
-    private static long lastTime;                                               //variable used to store the time of the last frame
+    private static long currentTime;                                           
+    private static long lastTime;                                              
     
-    public static long getTime()                                                //get the current system time for the current frame
+    public static long getTime()                                               
     {
-        return System.nanoTime();                                               //return the system time in nanoseconds
+        return System.nanoTime();                                             
     }
     
-    //Maybe apply a delta minimum value to stop FPS below 10 from causing
-    //movement/collision issues
-    public static float getDelta()                                              //get the delta (time between this frame and the last)
+    /**
+     * Get the fixed delta of the timer
+     * 
+     * @return 
+     */
+    public static float getDelta()                                              
     {
-        //return 1.0f/60.0f;
-        return 0.66f;
-        
-        //return 0.016666666666f;
-        //return 1;
-        //return (currentTime - lastTime) * DAMPING;                              //return the delta multiplied by the damping constant to moderate the global game speed
+        return 0.66f;                         
     }
     
+    /**
+     * Get the fixed delta of the time in the decoupled-physics loop
+     * @return 
+     */
     public static float getPhysicsDelta()
     {
         return 0.01666666666f;
     }
     
-    public static void update()                                                 //update the time values for the new frame
+    /**
+     * Update the system time and last frame's time
+     */
+    public static void update()                                              
     {
-        lastTime = currentTime;                                                 //the current frame is now the last frame
-        currentTime = getTime();                                                //the current frame needs a fresh system time value
+        lastTime = currentTime;                                             
+        currentTime = getTime();                                            
     }
     
-    public static void init()                                                   //initialize the time object
+    /**
+     * Initialise the system time
+     */
+    public static void init()                                        
     {
-        currentTime = getTime();                                                //get the system time for the current frame
-        lastTime = getTime();                                                   //get the system time for the last frame
+        currentTime = getTime();                                       
+        lastTime = getTime();                                               
     }
     
+    /**
+     * Get the duration of the last frame
+     * 
+     * @return 
+     */
     public static float getFrameDuration()
     {
         return currentTime - lastTime;

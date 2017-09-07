@@ -6,6 +6,11 @@ import com.base.game.Time;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Represents the main menu state in the engine loop
+ * 
+ * @author JordanG
+ */
 public class MainMenu implements GameLoop
 {
     public static MainMenu mainMenu;

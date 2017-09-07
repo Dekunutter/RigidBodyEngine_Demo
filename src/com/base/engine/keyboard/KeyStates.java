@@ -2,8 +2,11 @@ package com.base.engine.keyboard;
 
 import org.lwjgl.input.Keyboard;
 
-//3rd bool for each key as an escape point so that only one function is called with each
-//e.g: game is not unpaused instantly
+/**
+ * Stores states of keys for input processing
+ * 
+ * @author JordanG
+ */
 public class KeyStates
 {
     public static KeyStates p1Key;
@@ -19,6 +22,9 @@ public class KeyStates
     public boolean escapePressed, escapeWasPressed;
     public boolean renderPressed, renderWasPressed;
     
+    /**
+     * Check input states of each key
+     */
     public void getInput()
     {
         isLeftPressed();
@@ -33,6 +39,9 @@ public class KeyStates
         isRenderPressed();
     }
     
+    /**
+     * Reset all key input states
+     */
     public void resetInput()
     {
         leftWasPressed = leftPressed;
@@ -46,6 +55,11 @@ public class KeyStates
         renderWasPressed = renderPressed;
     }
 
+    /**
+     * Check if the left movement key is pressed
+     * 
+     * @return 
+     */
     public boolean isLeftPressed()
     {
         for(int key : Keys.keys.left)
@@ -60,6 +74,11 @@ public class KeyStates
         return leftPressed;
     }
     
+    /**
+     * Check if the right movement key is pressed
+     * 
+     * @return 
+     */
     public boolean isRightPressed()
     {
         for(int key : Keys.keys.right)
@@ -74,6 +93,11 @@ public class KeyStates
         return rightPressed;
     }
     
+    /**
+     * Check if the up movement key is pressed
+     * 
+     * @return 
+     */
     public boolean isUpPressed()
     {
         for(int key : Keys.keys.up)
@@ -88,6 +112,11 @@ public class KeyStates
         return upPressed;
     }
     
+    /**
+     * Check if the down movement key is pressed
+     * 
+     * @return 
+     */
     public boolean isDownPressed()
     {
         for(int key : Keys.keys.down)
@@ -102,6 +131,11 @@ public class KeyStates
         return downPressed;
     }
     
+    /**
+     * Check if the enter key is pressed
+     * 
+     * @return 
+     */
     public boolean isEnterPressed()
     {
         for(int key : Keys.keys.enter)
@@ -116,6 +150,11 @@ public class KeyStates
         return enterPressed;
     }
     
+    /**
+     * Check if the spacebar is pressed
+     * 
+     * @return 
+     */
     public boolean isSpacePressed()
     {
         for(int key : Keys.keys.space)
@@ -130,6 +169,11 @@ public class KeyStates
         return spacePressed;
     }
     
+    /**
+     * Check if the left-shift key is pressed
+     * 
+     * @return 
+     */
     public boolean isShiftPressed()
     {
         for(int key : Keys.keys.shift)
@@ -144,6 +188,11 @@ public class KeyStates
         return shiftPressed;
     }
     
+    /**
+     * Check if the left-control key is pressed
+     * 
+     * @return 
+     */
     public boolean isControlPressed()
     {
         for(int key : Keys.keys.control)
@@ -158,6 +207,11 @@ public class KeyStates
         return controlPressed;
     }
     
+    /**
+     * Check if the escape key is pressed
+     * 
+     * @return 
+     */
     public boolean isEscapePressed()
     {
         for(int key : Keys.keys.escape)
@@ -172,6 +226,11 @@ public class KeyStates
         return escapePressed;
     }
     
+    /**
+     * Check if the render state key is pressed
+     * 
+     * @return 
+     */
     public boolean isRenderPressed()
     {
         for(int key : Keys.keys.render)
@@ -186,6 +245,11 @@ public class KeyStates
         return renderPressed;
     }
     
+    /**
+     * Check if the left key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isLeftOnce()
     {
         if(leftPressed && !leftWasPressed)
@@ -195,6 +259,11 @@ public class KeyStates
         return false;
     }    
     
+    /**
+    * Check if the right key was pressed on this frame
+    * 
+    * @return
+    */
     public boolean isRightOnce()
     {
         if(rightPressed && !rightWasPressed)
@@ -204,6 +273,11 @@ public class KeyStates
         return false;
     }    
     
+    /**
+     * Check if the up key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isUpOnce()
     {
         if(upPressed && !upWasPressed)
@@ -213,6 +287,11 @@ public class KeyStates
         return false;
     }    
     
+    /**
+     * Check if the down key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isDownOnce()
     {
         if(downPressed && !downWasPressed)
@@ -222,6 +301,11 @@ public class KeyStates
         return false;
     }    
     
+    /**
+     * Check if the enter key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isEnterOnce()
     {
         if(enterPressed && !enterWasPressed)
@@ -231,6 +315,11 @@ public class KeyStates
         return false;
     }
     
+    /**
+     * Check if the spacebar was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isSpaceOnce()
     {
         if(spacePressed && !spaceWasPressed)
@@ -240,6 +329,11 @@ public class KeyStates
         return false;
     }
     
+    /**
+     * Check if the left-shift key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isShiftOnce()
     {
         if(shiftPressed && !shiftWasPressed)
@@ -249,6 +343,11 @@ public class KeyStates
         return false;
     }
     
+    /**
+     * Check if the left-control key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isControlOnce()
     {
         if(controlPressed && !controlWasPressed)
@@ -258,6 +357,11 @@ public class KeyStates
         return false;
     }
     
+    /**
+     * Check is the escape key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isEscapeOnce()
     {
         if(escapePressed && !escapeWasPressed)
@@ -267,6 +371,11 @@ public class KeyStates
         return false;
     }
     
+    /**
+     * Check if the render state key was pressed on this frame
+     * 
+     * @return 
+     */
     public boolean isRenderOnce()
     {
         if(renderPressed && !renderWasPressed)

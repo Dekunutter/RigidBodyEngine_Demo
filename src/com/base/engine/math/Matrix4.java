@@ -1,9 +1,17 @@
 package com.base.engine.math;
 
+/**
+ * Stores data in 4-column matrices and has all the related operations
+ * 
+ * @author JordanG
+ */
 public class Matrix4
 {
     public float[] data;
 
+    /**
+     * Initialise the matrix with 0 values
+     */
     public Matrix4()
     {
         data = new float[12];
@@ -12,6 +20,11 @@ public class Matrix4
         data[0] = data[5] = data[10] = 1.0f;
     }
 
+    /**
+     * Initialise the matrix with data from another
+     * 
+     * @param other Other matrix we are copying over
+     */
     public Matrix4(Matrix4 other)
     {
         data = new float[12];
@@ -22,6 +35,13 @@ public class Matrix4
         }
     }
     
+    /**
+     * Set the diagonal of the matrix by setting the coefficients
+     * 
+     * @param a
+     * @param b
+     * @param c 
+     */
     public void setDiagonal(float a, float b, float c)
     {
         data[0] = a;
@@ -29,6 +49,12 @@ public class Matrix4
         data[10] = c;
     }
 
+    /**
+     * Multiply this matrix by another
+     * 
+     * @param other
+     * @return 
+     */
     public Matrix4 multiply(Matrix4 other)
     {
         Matrix4 result = new Matrix4();
@@ -52,6 +78,12 @@ public class Matrix4
         return result;
     }
 
+    /**
+     * Multiply this matrix by a vector, transforming the vector to a new position
+     * 
+     * @param vector
+     * @return 
+     */
     public Vec multiply(Vec vector)
     {
         float x = vector.x * data[0] + vector.y * data[1] + vector.z * data[2] + data[3];
@@ -60,16 +92,32 @@ public class Matrix4
         return new Vec(x, y, z);
     }
 
+    /**
+     * Transform the specified vector by this matrix
+     * 
+     * @param vector
+     * @return 
+     */
     public Vec transform(Vec vector)
     {
         return this.multiply(vector);
     }
 
+    /**
+     * Get determinant of this matrix
+     * 
+     * @return 
+     */
     public float getDeterminant()
     {
         return data[8] * data[5] * data[2] + data[4] * data[9] * data[2] + data[8] * data[1] * data[6] - data[0] * data[9] * data[6] - data[4] * data[1] * data[10] + data[0] * data[5] * data[10];
     }
 
+    /**
+     * Setup this matrix to be the inverse of the specified one
+     * 
+     * @param other 
+     */
     public void setInverse(Matrix4 other)
     {
         float det = getDeterminant();
@@ -97,6 +145,11 @@ public class Matrix4
         data[11] = (other.data[8] * other.data[5] * other.data[3] - other.data[4] * other.data[9] * other.data[3] - other.data[8] * other.data[1] * other.data[7] + other.data[0] * other.data[9] * other.data[7] + other.data[4] * other.data[1] * other.data[11] - other.data[0] * other.data[5] * other.data[11]) * det;
     }
 
+    /**
+     * Get inverse of this matrix
+     * 
+     * @return Inversed matrix
+     */
     public Matrix4 inverse()
     {
         Matrix4 result = new Matrix4();
@@ -104,11 +157,20 @@ public class Matrix4
         return result;
     }
 
+    /**
+     * Invert this matrix
+     */
     public void invert()
     {
         setInverse(this);
     }
 
+    /**
+     * Transform a direction vector using this matrix
+     * 
+     * @param vector
+     * @return 
+     */
     public Vec transformDirection(Vec vector)
     {
         float x = vector.x * data[0] + vector.y * data[1] + vector.z * data[2];
@@ -117,6 +179,12 @@ public class Matrix4
         return new Vec(x, y, z);
     }
 
+    /**
+     * Transform a direction vector in the inverse direction using this matrix
+     * 
+     * @param vector
+     * @return 
+     */
     public Vec transformInverseDirection(Vec vector)
     {
         float x = vector.x * data[0] + vector.y * data[4] + vector.z * data[8];
@@ -125,6 +193,12 @@ public class Matrix4
         return new Vec(x, y, z);
     }
 
+    /**
+     * Transform the specified vector to a inverse point using this matrix
+     * 
+     * @param vector
+     * @return 
+     */
     public Vec transformInverse(Vec vector)
     {
         Vec tmp = new Vec(vector);
@@ -135,11 +209,23 @@ public class Matrix4
         return new Vec(tmp.x * data[0] + tmp.y * data[4] + tmp.z * data[8], tmp.x * data[1] + tmp.y * data[5] + tmp.z * data[9], tmp.x * data[2] + tmp.y * data[6] + tmp.z * data[10]);
     }
 
+    /**
+     * Get axis vector at the specified row
+     * 
+     * @param index Row to extract from
+     * @return Extracted vector
+     */
     public Vec getAxisVector(int index)
     {
         return new Vec(data[index], data[index + 4], data[index + 8]);
     }
 
+    /**
+     * Set orientation and position of this matrix
+     * 
+     * @param quat Orientaion
+     * @param pos Position
+     */
     public void setOrientationAndPos(Quaternion quat, Vec pos)
     {
         data[0] = 1 - (2 * quat.j * quat.j + 2 * quat.k * quat.k);
@@ -156,6 +242,11 @@ public class Matrix4
         data[11] = pos.z;
     }
 
+    /**
+     * Fill an array with data values for OpenGL rendering of the data
+     * 
+     * @param array 
+     */
     public void fillGLArray(float[] array)
     {
         array[0] = data[0];

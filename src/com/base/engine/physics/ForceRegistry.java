@@ -2,6 +2,11 @@ package com.base.engine.physics;
 
 import java.util.ArrayList;
 
+/**
+ * Handles the updating of all outgoing forces
+ * 
+ * @author JordanG
+ */
 public class ForceRegistry
 {
     protected ArrayList<ForceRegistration> registrations;

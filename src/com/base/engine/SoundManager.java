@@ -8,6 +8,11 @@ import static org.lwjgl.openal.AL10.*;
 import org.lwjgl.openal.OpenALException;
 import org.lwjgl.util.WaveData;
 
+/**
+ * Class to handle all the sound output of the engine
+ * 
+ * @author JordanG
+ */
 public class SoundManager
 {
     public static SoundManager soundManager;
@@ -17,12 +22,20 @@ public class SoundManager
     private boolean soundOutput;
     private int bufferIndex, sourceIndex;
     
+    /**
+     * Initialise an integer buffer for storing the sounds
+     */
     public SoundManager()
     {
         scratchBuffer = BufferUtils.createIntBuffer(256);
         buffers = new int[256];
     }
     
+    /**
+     * Setup all the sound channels
+     * 
+     * @param channels Number of channels that the sound manager will be handling
+     */
     public void initialize(int channels)
     {
         try
@@ -48,6 +61,12 @@ public class SoundManager
         }
     }
     
+    /**
+     * Load a sound from a specified path into the buffer
+     * 
+     * @param path File path of the sound we wish to load
+     * @return Index of the sound in the buffer
+     */
     public int addSound(String path)
     {
         scratchBuffer.rewind().position(0).limit(1);
@@ -63,6 +82,11 @@ public class SoundManager
         return bufferIndex++;
     }
     
+    /**
+     * Play the sound at the specified buffer index
+     * 
+     * @param buffer Index of the sound to play
+     */
     public void playSound(int buffer)
     {
         if(soundOutput)
@@ -79,7 +103,7 @@ public class SoundManager
         }
     }
     
-    //if this really needed? Play sound seems to do the same thing really...
+    //Alternate method to PlaySound
     public void playEffect(int buffer)
     {
         if(soundOutput)
@@ -91,11 +115,19 @@ public class SoundManager
         }
     }
     
+    /**
+     * Check if a sound is currently playing
+     * 
+     * @return Boolean saying whether a sound playing or not
+     */
     public boolean isPlayingSound()
     {
         return alGetSourcei(sources[sources.length - 1], AL_SOURCE_STATE) == AL_PLAYING;
     }
     
+    /**
+     * Deconstruct the sound manager
+     */
     public void destroy()
     {
         if(soundOutput)

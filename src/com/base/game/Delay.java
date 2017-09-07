@@ -1,46 +1,75 @@
 package com.base.game;
 
+/**
+ * Sets up a countdown that is used to delay operations
+ * 
+ * @author JordanG
+ */
 public class Delay
 {
-    private int length;                                                         //variable to store the length of the delay
-    private long endTime;                                                       //variable to store the ending time of the delay
-    boolean started;                                                            //boolean to determine whether or not the delay is active
+    private int length;                                                         
+    private long endTime;                                                       
+    boolean started;                                                            
     
-    public Delay(int length)                                                    //initialize the delay object using a length value
+    /**
+     * Initialise but do not start a delay timer
+     * 
+     * @param length Length of the countdown
+     */
+    public Delay(int length)                                                    
     {
-        this.length = length;                                                   //initialize the length variable using the passed-in length value
-        started = false;                                                        //the delay has yet to start so set the boolean to false
+        this.length = length;                                                   
+        started = false;                                                        
     }
     
-    public boolean isOver()                                                     //trigger the end of the delay
+    /**
+     * Check if the countdown was started and timed out
+     * 
+     * @return 
+     */
+    public boolean isOver()                                                     
     {
-        if(!started)                                                            //if the delay was never started in the first place
+        if(!started)                                                            
         {
-            return false;                                                       //exit without ending the delay
+            return false;                                                       
         }
         
-        return Time.getTime() >= endTime;                                       //if the delay was active, end the delay if the current time is greater than or equal to the ending time
+        return Time.getTime() >= endTime;                                       
     }
     
-    public boolean isActive()                                                   //check whether or not the delay is active
+    /**
+     * Check if the delay is active
+     * 
+     * @return 
+     */
+    public boolean isActive()                                                  
     {
-        return started;                                                         //return the value indicating whether or not the delay is active
+        return started;                                                         
     }
     
-    public void restart()                                                       //start/restart the delay
+    /**
+     * Restart the delay, resetting the end time
+     */
+    public void restart()                                                       
     {
-        started = true;                                                         //set the boolean started to true so that the delay is marked as active
-        endTime = (length * 1000000) + Time.getTime();                          //declare an ending time by getting the current time and adding it to the length of the delay multiplie by 1 million (to convert nanoseconds to milliseconds)
+        started = true;                                                       
+        endTime = (length * 1000000) + Time.getTime();                       
     }
     
-    public void stop()                                                          //stop the delay
+    /**
+     * Stop the delay countdown
+     */
+    public void stop()                                                          
     {
-        started = false;                                                        //set the delay as inactive
+        started = false;                                                      
     }
 
-    public void terminate()                                                     //end the delay in whatever state it is in
+    /**
+     * End the countdown as if it expired naturally
+     */
+    public void terminate()                                                  
     {
-        started = true;                                                         //set the delay to active
-        endTime = 0;                                                            //reset the ending time to 0
+        started = true;                                                         
+        endTime = 0;                                                          
     }
 }

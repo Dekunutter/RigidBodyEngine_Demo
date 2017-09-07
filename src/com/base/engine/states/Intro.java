@@ -6,6 +6,11 @@ import com.base.game.Time;
 import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Represents the intro splash screen in the engine loop
+ * 
+ * @author JordanG
+ */
 public class Intro implements GameLoop
 {
     public static Intro intro;
@@ -18,6 +23,9 @@ public class Intro implements GameLoop
         fading = false;
     }
     
+    /**
+     * Get input during this state
+     */
     @Override
     public void getInput()
     {
@@ -27,6 +35,9 @@ public class Intro implements GameLoop
         }
     }
 
+    /**
+     * Update all logic
+     */
     @Override
     public void update()
     {
@@ -47,7 +58,7 @@ public class Intro implements GameLoop
             Engine.nextState();
         }
     }
-
+    
     @Override
     public void render()
     {

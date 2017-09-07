@@ -4,6 +4,11 @@ import com.base.engine.math.Matrix3;
 import com.base.engine.math.Quaternion;
 import com.base.engine.math.Vec;
 
+/**
+ * Data relating to a single contact during collision detection
+ * 
+ * @author JordanG
+ */
 public class Contact
 {	
     public static final float velocityLimit = 0.25f;
@@ -41,6 +46,11 @@ public class Contact
         this.restitution = restitution;
     }
 
+    /**
+     * Calculate basic collision data
+     * 
+     * @param duration 
+     */
     public void calculateInternals(float duration)
     {
         if(body[0] == null)
@@ -73,6 +83,11 @@ public class Contact
 
     }
 
+    /**
+     * Calculate resulting velocity of the collision
+     * 
+     * @param duration 
+     */
     void calculateDesiredDeltaVelocity(float duration)
     {
         float velocityFromAcc = 0.0f;
@@ -165,6 +180,9 @@ public class Contact
         body[1] = temp;
     }
 
+    /**
+     * Wake up any sleeping bodies
+     */
     public void matchAwakeState()
     {
         if(body[1] == null)
@@ -188,6 +206,13 @@ public class Contact
         }
     }
 
+    /**
+     * Apply the new positions to the collided bodies
+     * 
+     * @param linearChange
+     * @param angularChange
+     * @param max 
+     */
     public void applyPositionChange(Vec[] linearChange, Vec[] angularChange, float max)
     {
         float[] angularMove = new float[2];
@@ -272,6 +297,12 @@ public class Contact
         }
     }
 
+    /**
+     * Apply the new velocities to the collided bodies
+     * 
+     * @param velocityChange
+     * @param rotationChange 
+     */
     public void applyVelocityChange(Vec[] velocityChange, Vec[] rotationChange)
     {
         Matrix3[] inverseInertiaTensor = new Matrix3[2];
@@ -318,6 +349,12 @@ public class Contact
         }
     }
 
+    /**
+     * Calculate a collision impulse to apply to the colliding bodies that includes friction
+     * 
+     * @param inverseInertiaTensor
+     * @return 
+     */
     private Vec calculateFrictionImpulse(Matrix3[] inverseInertiaTensor)
     {
         float inverseMass = body[0].getInverseMass();
@@ -375,6 +412,11 @@ public class Contact
         return impulseContact;
     }
 
+    /**
+     * Calculate an impulse to apply to the colliding bodies that does not include friction
+     * @param inverseInertiaTensor
+     * @return 
+     */
     private Vec calculateFrictionlessImpulse(Matrix3[] inverseInertiaTensor)
     {
         Vec impulseContact = new Vec();

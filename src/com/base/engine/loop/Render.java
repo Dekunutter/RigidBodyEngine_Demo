@@ -8,10 +8,17 @@ import org.lwjgl.opengl.Display;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.util.glu.GLU;
 
+/**
+ * Class that handles all top-level rendering operations of states in the engine
+ * @author Deku
+ */
 public class Render
 {
     public static Render render;
     
+    /**
+     * Initialise the render camera display and setup the window for rendering
+     */
     public Render()
     {
         glViewport(0, 0, Display.getWidth(), Display.getHeight());
@@ -30,6 +37,9 @@ public class Render
         
     }
     
+    /**
+     * Clear the screen from the previous frame's render, perform render operations and update the display
+     */
     public void render()
     {
         //glClear(GL_COLOR_BUFFER_BIT);

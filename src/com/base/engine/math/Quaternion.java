@@ -1,5 +1,10 @@
 package com.base.engine.math;
 
+/**
+ * Object class for storing quaternion data and performing operations on quaternions
+ * 
+ * @author JordanG
+ */
 public class Quaternion
 {
     public float r;
@@ -7,6 +12,9 @@ public class Quaternion
     public float j;
     public float k;
 
+    /**
+     * Initialise quaternion with base values
+     */
     public Quaternion()
     {
         r = 1.0f;
@@ -15,6 +23,11 @@ public class Quaternion
         k = 0.0f;
     }
 
+    /**
+     * Initialise quaternion from another
+     * 
+     * @param other 
+     */
     public Quaternion(Quaternion other)
     {
         r = other.r;
@@ -23,6 +36,14 @@ public class Quaternion
         k = other.k;
     }
 
+    /**
+     * Initialise quaterion with individual values
+     * 
+     * @param r
+     * @param i
+     * @param j
+     * @param k 
+     */
     public Quaternion(float r, float i, float j, float k)
     {
         this.r = r;
@@ -31,6 +52,9 @@ public class Quaternion
         this.k = k;
     }
 
+    /**
+     * Normalise this quaternion
+     */
     public void normalise()
     {
         float d = r * r + i * i + j * j + k * k;
@@ -49,6 +73,12 @@ public class Quaternion
         k *= d;
     }
 
+    /**
+     * Multiply this quaternion by another
+     * 
+     * @param multiplier
+     * @return Multiplied quaternion 
+     */
     public Quaternion multiply(Quaternion multiplier)
     {
         Quaternion copy = new Quaternion(this);
@@ -61,11 +91,23 @@ public class Quaternion
         return new Quaternion(r, i, j, k);
     }
 
+    /**
+     * Multiply this quaternion by a new scale
+     * 
+     * @param scale
+     * @return 
+     */
     public Quaternion scale(float scale)
     {
         return new Quaternion(this.r * scale, this.i * scale, this.j * scale, this.k * scale);
     }
     
+    /**
+     * Get the inner product of this quaternion by multiplying it by another
+     * 
+     * @param multiplier
+     * @return 
+     */
     public float innerProduct(Quaternion multiplier)
     {
         Quaternion copy = new Quaternion(this);
@@ -73,11 +115,22 @@ public class Quaternion
         return copy.r * multiplier.r + copy.i * multiplier.i + copy.j * multiplier.j + copy.k * multiplier.k;
     }
 
+    /**
+     * Conjugate this quaternion by inversing most of its values
+     * @return 
+     */
     public Quaternion conjugate()
     {
             return new Quaternion(this.r, -this.i, -this.j, -this.k);
     }
     
+    /**
+     * Add a scaled vector to this quaternion
+     * 
+     * @param vector
+     * @param scale
+     * @return 
+     */
     public Quaternion addScaledVector(Vec vector, float scale)
     {
             Quaternion q = new Quaternion(0.0f, vector.x * scale, vector.y * scale, vector.z * scale);

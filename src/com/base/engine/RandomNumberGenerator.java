@@ -2,16 +2,29 @@ package com.base.engine;
 
 import java.util.Random;
 
+/**
+ * Class used for generating random numbers
+ * 
+ * @author JordanG
+ */
 public class RandomNumberGenerator extends Random
 {
     private long[] state;
     private int index = 0;
     
+    /**
+     * Initialise the random number generator with the current time as the seed
+     */
     public RandomNumberGenerator()
     {
         this((int)System.currentTimeMillis());
     }
     
+    /**
+     * Initialise the random number generator with a specified seed
+     * 
+     * @param seed Number to seed the generator with
+     */
     public RandomNumberGenerator(int seed)
     {
         state = new long[16];
@@ -20,6 +33,11 @@ public class RandomNumberGenerator extends Random
         seed(seed);
     }
     
+    /**
+     * Perform bit operations on the seed to generate a long containing our random numbers
+     * 
+     * @param seed Number to seed the generator with
+     */
     private void seed(int seed)
     {
         seed = Math.abs(seed);
@@ -30,6 +48,12 @@ public class RandomNumberGenerator extends Random
         }
     }
     
+    /**
+     * Get the next random number in the current state long
+     * 
+     * @param nbits Number of bits to return
+     * @return Random number
+     */
     @Override
     protected int next(int nbits)
     {

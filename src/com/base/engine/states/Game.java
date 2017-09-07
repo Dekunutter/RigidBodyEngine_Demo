@@ -30,6 +30,11 @@ import org.lwjgl.util.glu.GLU;
 import com.base.engine.physics.Box;
 
 
+/**
+ * Represents the game state in the engine loop, handles the update, input and rendering of all objects during this state
+ * 
+ * @author JordanG
+ */
 public class Game
 {   
     public static Game game;                                                    //create an instance of this object to call
@@ -45,6 +50,9 @@ public class Game
     private boolean pausePressed, pauseWasPressed, paused = false;
     private boolean incrementPressed, incrementWasPressed, increment = false;
     
+    /**
+     * Generates a basic setup level for testing
+     */
     private void generateTestLevel()
     {
         Box box = new Box();
@@ -70,6 +78,9 @@ public class Game
         objects.add(rightBottomer);
     }
     
+    /**
+     * Initialise the game state
+     */
     public Game()
     {                
         objects = new ArrayList<CollisionPrimitive>();    
@@ -77,12 +88,14 @@ public class Game
         objectResolver = new ContactResolver(1);
         detector = new CollisionDetector();
         
-        generateTestLevel();                                                    //call the generate test level function to generate all the walls appropriately
+        generateTestLevel();                                                    
     }
     
-    public void getInput()                                                      //handle user input every frame
+    /**
+     * Get input of all controllable objects in the game state
+     */
+    public void getInput()                                                  
     {
-        //MOVE THESE. PAUSED AND INCREMENT KEY CHECKS
         pausePressed = Keyboard.isKeyDown(Keyboard.KEY_P);
         if(pausePressed && !pauseWasPressed)
         {
@@ -105,25 +118,23 @@ public class Game
         incrementWasPressed = incrementPressed;
     }
     
-    //Filter out "this" objects and it should be good!
-    //render query to filter out off-screen objects from rendering using quadtree rectangle object
-    public void update()                                                        //handle updated logic every frame
+    /**
+     * Update the logic of all objects
+     */
+    public void update()                                                        
     {
-        //MOVE THIS. PAUSED INCREMENT LOOP. UPDATE METHOD IS LARGE ENOUGH
-        if(!paused || increment)
+        if(!paused || increment)                                                //check if game is paused
         {
             forceRegistry.UpdateForces(Time.getPhysicsDelta());
             
-            for(CollisionPrimitive go : objects)                                            //for each GameObject object in the objects array list
+            for(CollisionPrimitive go : objects)                                            
             {
                 
-                    go.update(Time.getPhysicsDelta());                                                    //update the game logic for this object
+                    go.update(Time.getPhysicsDelta());                                                   
                   
             }
             
             CollisionData data = new CollisionData();
-            //data.friction = 0.2f;
-            //data.restitution = 0.3f;
             data.tolerance = 0.1f;
             detector = new CollisionDetector();
             for(int i = 0; i < objects.size(); i++)
@@ -146,9 +157,11 @@ public class Game
         increment = false;
     }
     
-    public void render()                                                        //redraw the world every frame
+    /**
+     * Render all objects in 3D space
+     */
+    public void render()                                                        
     {   
-        //enable 3D rendering (disables 2D rendering)
         glEnable(GL_TEXTURE_2D);
         glShadeModel(GL_SMOOTH);
         glEnable(GL_DEPTH_TEST);
@@ -166,17 +179,27 @@ public class Game
         		
         GLU.gluLookAt(5.0f, 0.0f,  0.0f, 0.0f, 0.0f,  0.0f, 0.0f, 1.0f, 0.0f);
         
-        for(CollisionPrimitive go : objects)                                            //for each GameObject object in the objects array list
+        for(CollisionPrimitive go : objects)                                            
         {
-            go.render();                                                        //draw the object to screen
+            go.render();                                                      
         }
     }
     
-    public ArrayList<CollisionPrimitive> getObjects()                                   //get an array list containing all the game objects in the game
+    /**
+     * Get all objects in the game
+     * 
+     * @return 
+     */
+    public ArrayList<CollisionPrimitive> getObjects()                                 
     {
         return objects;
     }
     
+    /**
+     * Get all forces in the game
+     * 
+     * @return 
+     */
     public static ForceRegistry getForceRegistry()
     {
         return forceRegistry;

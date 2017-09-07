@@ -9,10 +9,18 @@ import com.base.engine.states.MainMenu;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 
+/**
+ * Class that handles all top-level input of states in the engine
+ * 
+ * @author JordanG
+ */
 public class Input
 {
     public static Input input;
     
+    /**
+     * Initialise input handling
+     */
     public Input()
     {
         try
@@ -27,6 +35,9 @@ public class Input
         }
     }
     
+    /**
+     * Check for input
+     */
     public void getInput()
     {
         Engine.p1Key.getInput();

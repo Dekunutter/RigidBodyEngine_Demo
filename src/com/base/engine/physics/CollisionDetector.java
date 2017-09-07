@@ -3,7 +3,11 @@ package com.base.engine.physics;
 import com.base.engine.math.Matrix4;
 import com.base.engine.math.Vec;
 
-
+/**
+ * Detects collisions between objects
+ * 
+ * @author JordanG
+ */
 public class CollisionDetector
 {
     public float smallestPenetration;
@@ -14,6 +18,15 @@ public class CollisionDetector
         return box.halfSize.x * Math.abs(axis.dotProd(box.getAxis(0))) + box.halfSize.y * Math.abs(axis.dotProd(box.getAxis(1))) + box.halfSize.z * Math.abs(axis.dotProd(box.getAxis(2)));
     }
 
+    /**
+     * Check for penetration on the specified axis, between two boxes
+     * 
+     * @param one
+     * @param two
+     * @param axis
+     * @param toCenter
+     * @return 
+     */
     private static float penetrationOnAxis(CollisionBox one, CollisionBox two, Vec axis, Vec toCenter)
     {
         float oneProject = transformToAxis(one, axis);
@@ -24,6 +37,16 @@ public class CollisionDetector
         return oneProject + twoProject - distance;
     }
 
+    /**
+     * Check for penetration on the specified axis between two boxes
+     * 
+     * @param one
+     * @param two
+     * @param axis
+     * @param toCenter
+     * @param index
+     * @return 
+     */
     private boolean tryAxis(CollisionBox one, CollisionBox two, Vec axis, Vec toCenter, int index)
     {
         if(axis.squaredMagnitude() <= 0.0001)
@@ -48,6 +71,14 @@ public class CollisionDetector
         return true;
     }
 
+    /**
+     * Check for collisions between two boxes via SAT
+     * 
+     * @param one
+     * @param two
+     * @param data
+     * @return 
+     */
     public int boxAndBox(CollisionBox one, CollisionBox two, CollisionData data)
     {
         Vec toCenter = new Vec(two.getAxis(3));
@@ -301,6 +332,18 @@ public class CollisionDetector
         data.contacts.add(contact);
     }
 
+    /**
+     * Get the contact point of a collision
+     * 
+     * @param pointA
+     * @param axisA
+     * @param sizeA
+     * @param pointB
+     * @param axisB
+     * @param sizeB
+     * @param useA
+     * @return 
+     */
     public Vec getContactPoint(Vec pointA, Vec axisA, float sizeA, Vec pointB, Vec axisB, float sizeB, boolean useA)
     {
         Vec toCenter = new Vec();

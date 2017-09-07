@@ -3,6 +3,11 @@ package com.base.engine.keyboard;
 import java.util.ArrayList;
 import org.lwjgl.input.Keyboard;
 
+/**
+ * Set up the keys which will be scanned for input each frame in this engine
+ * 
+ * @author JordanG
+ */
 public class Keys
 {
     public static Keys keys;
