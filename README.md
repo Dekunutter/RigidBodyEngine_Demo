@@ -4,3 +4,5 @@ Coded while studying Game Physics Engine Design by Ian Millington.
 Rendered with OpenGL (wrapped into Java code via LWJGL 2.9.0)
 
 Source code will not run out of the box due to LWJGL dependencies. Install LWJGL 2.9.0 to run this project!
+
+I'm not any kind of expect in physics, I just wanted to learn a bit more on the subject :)
