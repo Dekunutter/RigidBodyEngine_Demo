@@ -70,7 +70,6 @@ public class Engine
             System.out.println("Not found");
             displayWidth = 800;
             displayHeight = 600;
-            return;
         }
         else
         {
